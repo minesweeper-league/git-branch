@@ -17,18 +17,17 @@ jobs:
         run: |
           git remote update
           
-          # Get the commit hash of the latest commit on the feature branch
+          # Get the commit hash of the latest commit on the feature branch:
           feature_branch_commit=$(git rev-parse HEAD)
-
-          echo $feature_branch_commit
           
-          # Get the commit hash of the latest commit on the main branch
+          # Get the commit hash of the latest commit on the main branch:
           main_branch_commit=$(git rev-parse origin/main)
-          
-          echo $main_branch_commit
+
+          # Gind the last commit that the branches have in common:
+          common_commit=$(git merge-base origin/main origin/main)
           
           # Compare the commit hashes
-          if [ "$feature_branch_commit" != "$main_branch_commit" ]; then
+          if [ "$common_commit" != "$main_branch_commit" ]; then
               echo "Your branch is not rebased with main. Please rebase your branch."
               exit 1
           fi
