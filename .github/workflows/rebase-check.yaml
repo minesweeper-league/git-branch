@@ -19,12 +19,16 @@ jobs:
           
           # Get the commit hash of the latest commit on the feature branch:
           feature_branch_commit=$(git rev-parse HEAD)
+
+          echo $feature_branch_commit
           
           # Get the commit hash of the latest commit on the main branch:
           main_branch_commit=$(git rev-parse origin/main)
 
           # Gind the last commit that the branches have in common:
           common_commit=$(git merge-base origin/main origin/main)
+          
+          echo $main_branch_commit
           
           # Compare the commit hashes
           if [ "$common_commit" != "$main_branch_commit" ]; then
