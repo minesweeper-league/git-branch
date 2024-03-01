@@ -1,0 +1,34 @@
+name: Rebase Check
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  rebase-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check for rebase
+        run: |
+          git remote update
+          
+          # Get the commit hash of the latest commit on the feature branch
+          feature_branch_commit=$(git rev-parse HEAD)
+
+          echo $feature_branch_commit
+          
+          # Get the commit hash of the latest commit on the main branch
+          main_branch_commit=$(git rev-parse origin/main)
+          
+          echo $main_branch_commit
+          
+          # Compare the commit hashes
+          if [ "$feature_branch_commit" != "$main_branch_commit" ]; then
+              echo "Your branch is not rebased with main. Please rebase your branch."
+              exit 1
+          fi
