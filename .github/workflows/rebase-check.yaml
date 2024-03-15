@@ -24,6 +24,7 @@ jobs:
       - name: Check for rebase
         run: |
           git remote update
+          git log
 
           # Get the commit hash of the latest commit on the feature branch:
           feature_branch_commit=${{github.event.pull_request.head.sha}}
