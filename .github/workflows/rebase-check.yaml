@@ -26,7 +26,7 @@ jobs:
           git remote update
 
           # Get the commit hash of the latest commit on the feature branch:
-          feature_branch_commit=$(git rev-parse HEAD)
+          feature_branch_commit=${{github.event.pull_request.head.sha}}
           echo "INFO: feature_branch_commit=$feature_branch_commit"
 
           # Get the commit hash of the latest commit on the main branch:
