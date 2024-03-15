@@ -24,20 +24,20 @@ jobs:
       - name: Check for rebase
         run: |
           git remote update
-          
-          # Get the commit hash of the latest commit on the feature branch:
-          feature_branch_commit=$(git rev-parse HEAD)
+          git log
 
-          echo $feature_branch_commit
-          
+          # Get the commit hash of the latest commit on the feature branch:
+          feature_branch_commit=${{github.event.pull_request.head.sha}}
+          echo "INFO: feature_branch_commit=$feature_branch_commit"
+
           # Get the commit hash of the latest commit on the main branch:
           main_branch_commit=$(git rev-parse origin/main)
+          echo "INFO: main_branch_commit=$main_branch_commit"
 
-          # Gind the last commit that the branches have in common:
-          common_commit=$(git merge-base origin/main origin/main)
-          
-          echo $main_branch_commit
-          
+          # Find the last commit that the branches have in common:
+          common_commit=$(git merge-base origin/main $feature_branch_commit)
+          echo "INFO: common_commit=$common_commit"
+
           # Compare the commit hashes
           if [ "$common_commit" != "$main_branch_commit" ]; then
               echo "Your branch is not rebased with main. Please rebase your branch."
