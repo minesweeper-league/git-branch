@@ -8,6 +8,12 @@ on:
       - main
 
 jobs:
+  printPayload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print GitHub Event Payload
+        run: |
+          echo '${{ toJson(github) }}'
   rebase-check:
     runs-on: ubuntu-latest
 
